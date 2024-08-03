@@ -1,6 +1,5 @@
 {% set version = "1.0.5" %}
 {% set posix = 'm2-' if win else '' %}
-{% set native = 'm2w64-' if win else '' %}
 
 package:
   name: r-changepoint.np
@@ -13,8 +12,7 @@ source:
   sha256: c9eeb0be6ec58fc9a44fc5a88a29df4e21430644bcf7d2c28961ae5ac10fd2cf
 
 build:
-  merge_build_host: true  # [win]
-  number: 1
+  number: 2
   rpaths:
     - lib/R/lib/
     - lib/
@@ -22,7 +20,9 @@ build:
 requirements:
   build:
     - {{ compiler('c') }}              # [not win]
+    - {{ stdlib("c") }}                # [not win]
     - {{ compiler('m2w64_c') }}        # [win]
+    - {{ stdlib("m2w64_c") }}          # [win]
     - {{ posix }}filesystem        # [win]
     - {{ posix }}make
     - {{ posix }}sed               # [win]
@@ -36,7 +36,6 @@ requirements:
     - r-zoo
   run:
     - r-base
-    - {{ native }}gcc-libs         # [win]
     - r-rdpack
     - r-changepoint
     - r-zoo
